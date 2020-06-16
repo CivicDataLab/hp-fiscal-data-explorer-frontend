@@ -1,0 +1,36 @@
+.f-tab-content-wrapper{
+  padding-top: 10rem;
+
+  &:first-of-type{
+    padding-top: 4rem;
+  }
+
+  .f-tab-content__text-wrapper{
+    // padding-right: 9rem;
+
+    .f-tab-content__title{
+      @include serif-style-2();
+    }
+
+    .f-tab-content__body{
+      padding-top: 1rem;
+    }
+
+    .f-tab-content__link{
+      display: block;
+      padding-top: 1rem;
+      font-weight: 400;
+    }
+  }
+
+  .f-tab-content__img{
+    width: 100%;
+    box-shadow: -1.5rem 1.5rem 0px $brandBlueLightOp40;
+  }
+}
+
+@media screen and ( max-width : 1055px){
+    .f-tab-content__text-wrapper{
+      padding-bottom: 5rem;
+    }
+}

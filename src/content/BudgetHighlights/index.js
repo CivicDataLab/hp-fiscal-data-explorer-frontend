@@ -102,7 +102,7 @@ class BudgetHighlights extends Component {
 	}
 
   componentDidMount() {
-    // this.getData("http://13.126.189.78/api/exp_summary");
+    // this.getData("https://hpback.openbudgetsindia.org/api/exp_summary");
 }
 
 	render() {

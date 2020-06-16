@@ -1,0 +1,35 @@
+.about-us-content-wrapper{
+  padding-top: 4rem;
+
+
+  .about-us-content{
+
+    .f-person-card{
+      padding-top: 4rem;
+
+      .f-person-card__img-wrapper{
+
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+
+        img{
+          border-radius: 50%;
+          width: 80%;
+          max-width: 200px;
+         }
+      }
+
+      .f-person-card__text-wrapper{
+        text-align: center;
+        padding-top: 1.5rem;
+
+        .f-person-card__desc{
+          padding-top: 0.5rem;
+        }
+      }
+    }
+
+  }
+
+}

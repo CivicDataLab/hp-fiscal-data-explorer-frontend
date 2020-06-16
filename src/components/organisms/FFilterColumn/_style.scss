@@ -1,0 +1,10 @@
+.filter-col{
+  background-color: $extra_light_grey;
+  padding: 2rem;
+  height: 100%;
+  overflow: scroll;
+
+  .filter-col--ops{
+    padding-bottom: 2rem;
+  }
+}

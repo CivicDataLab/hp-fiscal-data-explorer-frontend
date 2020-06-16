@@ -1,0 +1,58 @@
+[
+  {
+    "content": [
+      "Hamirpur District treasury spent ₹ 38 lakhs in Beti Hai Anmol scheme, while the neighbouring district of Bilaspur spent as much as ₹ 68 lakhs'.",
+      "This scheme is for girls of BPL families up to two girl children. After their birth, the department deposits rupees 10,000 per girl child in the post office/ Bank account."
+    ],
+    "link": {
+      "text": "For such granular accounts on how different schemes are allocated money visit \"Schemes\"!",
+      "route": "/schemes"
+    },
+    "img": "hamirpur_bilaspur"
+  },
+  {
+    "content": [
+      "In 2018-19, the Government of Himachal Pradesh budgeted 61% more funds for tourism and civil aviation?"
+    ],
+    "link": {
+      "text": "Know this and more about the budget allocations under \"Expenditure Summary\"!",
+      "route": "/expenditure/summary"
+    },
+    "img": "all"
+  },
+  {
+    "content": [
+      "The Shimla capital treasury spent more than ₹ 2 Crores on Children Home in 2018-19 while most other districts spent less than ₹ 15 Lakhs."
+    ],
+    "link": {
+      "text": "Find out more about how the government has been spending under this scheme under the \"Scheme Children home\"",
+      "route": "/schemes"
+    },
+    "img": "shimla"
+  },
+  {
+    "content": [
+      "In March 2019 the district of Mandi spent ₹ 22,88,63,222 (₹ 22 Crores) on public primary schools and ₹ 11,56,381 (₹ 1 crore) on Jails.",
+      "In March 2019, the district of Sirmaur spent ₹ 13,04,64,511 (₹ 13 Crores) on public primary schools in the district while it spent ₹ 36,79,103 (₹ 3.7 crores) on jails."
+    ],
+    "img": "mandi_sirmaur"
+  },
+  {
+    "content": [
+      "In march 2019, the Shimla Capital treasury spent ₹ 97.90 Crores on the maintenance of the Ayurveda department building."
+    ],
+    "img": "shimla"
+  },
+  {
+    "content": [
+      "For the month of mar 2019, the amount that was allocated for the rural health services in Dharamshala was ₹ 756.72 Crores and the amount that was actually spent was ₹ 533.88 Crores"
+    ],
+    "img": "kangra"
+  },
+  {
+    "content": [
+      "In Feb 2019, the government of himachal pradesh was sanctioned to spend ₹ 77 thousand on prevention and control of diseases while it ended up spending ₹ 45,365."
+    ],
+    "img": "hamirpur_mandi_shimla"
+  }
+]

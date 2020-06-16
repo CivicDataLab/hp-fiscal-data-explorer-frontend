@@ -1,0 +1,58 @@
+[
+  {
+    "img": "shreya_img",
+    "name": "Shreya Agrawal",
+    "desc": "Shreya Agrawal is a data fanatic who loves to scrutinize data as well as answering unanswered questions using visualizations. She also enjoys developing softwares."
+  },
+  {
+    "img": "abrar_img",
+    "name": "Abrar Burk",
+    "desc": "Abrar is a UX Designer & Creative Technologist. He researches, strategizes, facilitates, communicates, designs, codes, and does whatever else it takes to bring web & mobile applications to life. He speaks with people in English & Hindi and he speaks with machines in a few JavaScript dialects & PHP."
+  },
+  {
+    "img": "simonti_img",
+    "name": "Simonti Chakraborty",
+    "desc": "Simonti is a researcher in the domain of public finance and is with the Centre for Budget and Governance Accountability. She has been an integral part of the Open Budgets India team."
+  },
+  {
+    "img": "swati_img",
+    "name": "Swati Jaiswal",
+    "desc": "Swati is an Open Source enthusiast. She is passionate about the social impact of technology and works to add her contribution to the same. She has previously worked with Scrapinghub."
+  },
+  {
+    "img": "gaurav_img",
+    "name": "Gaurav Godhwani",
+    "desc": "Gaurav works to strengthen the data-for-good ecosystem in India, he has been instrumental in starting initiatives like DataKind Bangalore & Open Budgets India. He is passionate about Open Data, Open Source Tech, Education and Human Rights."
+  },
+  {
+    "img": "preethi_img",
+    "name": "Preethi Govindarajan",
+    "desc": "Preethi is a biologist. Having worked in the pharmaceutical industry for over five years, she has an interest in public health statistics. She is particularly keen on the use of open government data toward public health statistics. She enjoys running, reading books, going on bicycle rides and watching anime."
+  },
+  {
+    "img": "namita_img",
+    "name": "Namita Mohandas",
+    "desc": "Namita is a Delhi-based design consultant with over eleven years experience leading user-experience, data-viz and game-design projects. She is currently the creative lead on an interactive narrative game focussed on sexual and reproductive health for adolescents with Vihara Innovation network and is a visiting faculty at Ambedkar University’s Social Design School. She wants to see urban behaviour move towards clean air, waste, water, food and governance change."
+  },
+  {
+    "img": "sheneille_img",
+    "name": "Sheneille Patil",
+    "desc": "Sheneille is a UI + UX Designer. She designs digital products for users with a close eye on form and function. She has worked on several digital projects, across different industries with the focus on conceptualizing, strategizing and execution of designs."
+  },
+  {
+    "img": "arun_img",
+    "name": "Arun Sudarsan",
+    "desc": "Arun is an Economist, passionate about #OpenData and its potential to increase state transparency and accountability. He believes in empowering state agencies to make policy decisions based on the best available evidence. Loves teaching. Previously worked at NITI Aayog."
+  },
+  {
+    "img": "shivam_img",
+    "name": "Shivam Sharma",
+    "desc": "Shivam is a Front End Developer. He loves to convert numbers into meaningful visual elements that are more civicly engaged. Education to underprivileged is his social motive. He likes to travel, being foodie, and watch one season a night."
+  },
+  {
+    "img": "arpit_img",
+    "name": "Arpit Arora",
+    "desc": "Arpit is a statistician by trade. He believes in building sustainable and intersectional solutions for the society. Avid cyclist and reader. Passionate about #OpenEducation."
+  }
+
+]

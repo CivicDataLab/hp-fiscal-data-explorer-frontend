@@ -4,33 +4,36 @@ import RadioButtonGroup from 'carbon-components-react/lib/components/RadioButton
 import RadioButton from 'carbon-components-react/lib/components/RadioButton';
 import FormGroup from 'carbon-components-react/lib/components/FormGroup';
 
-const FRadioGroup = props => (
-  <div className={props.className}>
+const FRadioGroup = props => {
 
-      <RadioButtonGroup
-        defaultSelected="default-selected"
-        labelPosition="right"
-        legend="Group Legend"
-        name={props.name}
-        onChange={function noRefCheck(){}}
-        orientation="horizontal"
-        valueSelected="default-selected"
-      >
-      {
-        props.radioButtons.map((rbutton, i) =>(
-          <RadioButton
-            key={i}
-            id= {rbutton.id}
-            labelText= {rbutton.labelText}
-            value= {rbutton.value}
-          />
+  console.log('valueSelected: '+ props.valueSelected);
+
+  return (
+    <div className={props.className}>
+        <RadioButtonGroup
+          defaultSelected={props.valueSelected}
+          labelPosition="right"
+          legend="Group Legend"
+          name={props.items && props.items[0].filter_name || props.name}
+          onChange={props.onChange}
+          orientation="horizontal"
+          valueSelected={props.valueSelected}
+        >
+        { props.items &&
+          props.items.map((rbutton, i) =>(
+            <RadioButton
+              key={i}
+              id= {`${rbutton.filter_name}_${rbutton.id}`}
+              labelText= {rbutton.label}
+              value= {rbutton.id}
+              disabled={props.disableExpButton && i === 1}
+            />
+            )
           )
-        )
-      }
-      </RadioButtonGroup>
-
-  </div>
-);
+        }
+        </RadioButtonGroup>
+    </div>
+  )};
 
 FRadioGroup.defaultProps = {
   //yLabelFormat mnust be an array of 3. each value representing  'prefix', 'suffix' and multiplier
