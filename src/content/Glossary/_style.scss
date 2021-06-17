@@ -1,0 +1,45 @@
+.glossary{
+  background-color: $extra_light_grey;
+}
+
+.glossary-contents-wrapper{
+  padding-top:
+  4rem;
+}
+
+.glossary-search-bar-wrapper{
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
+.glossary_section{
+
+
+  .glossary__section-title{
+    padding-top: 2rem;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: $brandBlueMid;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $brandBlueMid;
+    position: sticky;
+    top: 3rem;
+    background-color: $extra_light_grey;
+  }
+
+  .glossary__item{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid $white;
+
+
+    .glossary__item_title{
+      font-weight: bold;
+    }
+
+    .glossary__item_desc{
+      padding-top: 0.5rem;
+    }
+  }
+}

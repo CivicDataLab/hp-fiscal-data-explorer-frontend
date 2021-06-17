@@ -8,6 +8,23 @@ import {
   VictoryLabel,
 } from "victory";
 
+//sample slope data
+const sampleSlopeData = [
+  [
+		{ year: "1", sanction: 0.1 },
+		{ year: "4", sanction: 0.5, label: "demand_1" }
+  ],
+  [
+		{ year: "1", sanction: 0.2 },
+		{ year: "4", sanction: 0.5, label: "B" }
+  ],
+  [
+		{ year: "1", sanction: 0.3 },
+		{ year: "4", sanction: 0.6, label: "C" }
+  ]
+]
+
+
 const tickLabelStyle = {
   fontFamily: "IBM Plex Sans",
   fontSize: "7px"

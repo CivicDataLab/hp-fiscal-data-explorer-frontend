@@ -1,0 +1,55 @@
+
+
+.f-map-tooltip-wrapper{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 240px;
+  height: 100px;
+  background-color: $black;
+  z-index:100000;
+  border: 1px solid $white;
+  padding: 1rem;
+
+  .f-map-tooltip__guide-text-wrapper{
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .f-map-tooltip__guide-text{
+      font-size: 11px;
+      line-height: 1.6em;
+      font-weight: 600;
+      color: $white;
+    }
+  }
+
+
+
+  .f-map-tooltip{
+
+    .f-map-tooltip__district-name{
+      color: $white;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .f-map-tooltip__separator{
+      border-bottom: 1px solid $dark-grey;
+      margin: 0.5rem 0 ;
+    }
+
+    .f-map-tooltip__data-wrapper{
+      display: flex;
+      justify-content: space-between;
+
+      .f-map-tooltip__data-point-key, .f-map-tooltip__data-point-value{
+        color: $white;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
