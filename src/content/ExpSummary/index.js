@@ -1,190 +1,112 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, Fragment } from "react";
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+//actions
+import { getExpSummaryData } from '../../actions/exp_summary';
+
 //carbon components
 import { Content } from 'carbon-components-react/lib/components/UIShell';
 import { ContentSwitcher, Switch } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
 
-
 //custom components
+import FLoading from '../../components/atoms/FLoading';
 import FTable from '../../components/dataviz/FTable';
 import FSlope from '../../components/dataviz/FSlope';
 import FForce from '../../components/dataviz/FForce';
+import FForce_Y from '../../components/dataviz/FForce_Y';
+import FForce_X from '../../components/dataviz/FForce_X';
+import FPageTitle from '../../components/organisms/FPageTitle';
+import FLegendBar from '../../components/atoms/FLegendBar';
 
-//sample data
-var exp_summary_data = require('../../data/exp-summary.json');
+//data
+import howToUseContent from '../../data/howToUseContent.json';
 
-//make api call for exp-summary dataviz
-
-
-//sample slope data
-const sampleSlopeData = [
-  [
-		{ year: "1", sanction: 0.1 },
-		{ year: "4", sanction: 0.5, label: "demand_1" }
-  ],
-  [
-		{ year: "1", sanction: 0.2 },
-		{ year: "4", sanction: 0.5, label: "B" }
-  ],
-  [
-		{ year: "1", sanction: 0.3 },
-		{ year: "4", sanction: 0.6, label: "C" }
-  ]
-]
-//sample table data
-const sampleRows = [{
-		id: 'a',
-		demand_code: '1',
-		sanction: '1000',
-		percent_change: '10%',
-  },
-	{
-		id: 'b',
-		demand_code: '2',
-		sanction: '800',
-		percent_change: '12%'
-  },
-	{
-		id: 'c',
-		demand_code: '3',
-		sanction: '1200',
-		percent_change: '6%'
-  },
-];
-const sampleHeaders = [
-  {
-		key: 'demand_code', // `key` is the name of the field on the row object itself for the header
-		header: 'Demand', // `header` will be the name you want rendered in the Table Header
-  },
-	{
-		key: 'sanction',
-		header: 'Sanction',
-  },
-	{
-		key: 'percent_change',
-		header: 'Pecentage Change Since Last Year',
-  },
-];
-
-const currentYear = "2019";
-const prevYear = "2018";
-
-var slopeData = [];
-
-var tableData = {
-	headers: [],
-	rows: []
-}
-
-const thousands_separators = (num) =>
-  {
-    var num_parts = num.toString().split(".");
-    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return num_parts.join(".");
-  }
-
-//
-exp_summary_data.map((d, i) => {
-
-	i === 0 && tableData.headers.push(
-    { key: 'demandid', header: 'Demand ID' },
-    { key: 'demandname', header: 'Demand Name' },
-    { key: 'sanctioncurrent', header: 'Sanction This Year (INR)' },
-    { key: 'sanctionprevious', header: 'Sanction Last Year (INR)' },
-    { key: 'rateOfChange', header: '% Change' }
-  );
-
-	tableData.rows.push({
-		id: i,
-		'demandid': d.demandid,
-		'demandname': d.demandname,
-		'sanctioncurrent': Math.round(d.sanctioncurrent*100)/100,
-		'sanctionprevious': Math.round(d.sanctionprevious*100)/100,
-		'rateOfChange': Math.round((d.rateOfChange*100) * 100)/100
-	})
-})
+import FPageMeta from '../../components/organisms/FPageMeta';
 
 //Name of components to switch between
-const sec1VizTypes = ["FForce", "FTable"];
-
-const props = {
-	FTable: {
-		rows: tableData.rows,
-		headers: tableData.headers
-	}
-}
+const vizTypes = ["FForce", "FTable"];
 
 
-class ExpSummary extends Component {
 
-	constructor(props) {
-		super(props);
+const ExpSummary = ({
+	exp_summary : {
+		loading,
+		vizData,
+		tableData : { rows, headers}
+	},
+	getExpSummaryData
+ }) => {
 
-		this.state = {
-      currentSec1VizType: sec1VizTypes[0],
-      data: {
-        "nodes": exp_summary_data,
-        "apiData": {
-          data: null,
-          isLoading: true,
-          errors: null
-        }
-      }
-    };
-		this.switchSec1VizType = this.switchSec1VizType.bind(this);
-	}
+	const [currentVizType, setCurrentVizType] = useState(vizTypes[0]);
+	const switchVizType = (e) => { setCurrentVizType(vizTypes[e.index]); }
 
-  async getData(apiUrl){
-    try{
-      const res = await axios.get(apiUrl);
-      console.log(res);
-    }catch(err){
-      console.log(err);
-    }
-  }
+	useEffect(() => {
+		// getExpSummaryData();
+	},[])
 
-	switchSec1VizType(e) {
-		this.setState({ currentSec1VizType: sec1VizTypes[e] })
-	}
-
-  componentDidMount() {
-    this.getData("http://13.126.189.78/api/exp_summary");
-}
-
-	render() {
-
-		var currentSec1VizComp;
-		this.state.currentSec1VizType === sec1VizTypes[0] ?
-			currentSec1VizComp = <FForce data={this.state.data} /> :
-			currentSec1VizComp = <FTable {...props.FTable}  />;
-
-		return (
-			<div className="exp-summary-content">
-        <div className="text-col">
-          <h3>Some title text</h3>
-          <p>
-            Carbon is IBM’s open-source design system for digital
-            products and experiences. With the IBM Design Language
-            as its foundation, the system consists of working code,
-            design tools and resources, human interface guidelines,
-            and a vibrant community of contributors.
-          </p>
-        </div>
-        <div className="data-viz-col exp-summary">
-          <div className="content-switcher-wrapper">
-            <ContentSwitcher onChange={this.switchSec1VizType} >
-              <Switch  text="Bubble Chart" />
+	const createDataUIComponent = () => {
+		if(loading === true){
+			return <FLoading/>
+		}else{
+			return (
+				<Fragment>
+					<div className="content-switcher-wrapper">
+            <ContentSwitcher onChange={switchVizType} selectedIndex={vizTypes.indexOf(currentVizType)} >
+              <Switch  text="Visual" />
               <Switch  text="Table" />
             </ContentSwitcher>
           </div>
-          {currentSec1VizComp}
+					{
+						currentVizType === vizTypes[0] ?
+						<Fragment>
+							<FLegendBar
+								vizType='bubble'
+								data={[
+									{key: 'The bigger the size of the circle the bigger is the expense', type: 'bubble', color: 'black'}
+								]}
+								/>
+							<div className="data-viz-wrapper">
+								<FForce_X nodes={vizData} />
+								{/* <FForce_Y nodes={this.props.exp_summary.data} />*/}
+							</div>
+						</Fragment>
+						:
+						<FTable rows={rows} headers={headers} />
+					}
+				</Fragment>
+			)
+		}
+	}
+
+    return (
+      <div className="f-content exp-summary-content">
+				<FPageMeta pageId = 'expenditure_summary' />
+				<FPageTitle
+					pageTitle={ <span>Expenditure | Summary  <span className="f-light-grey">| FY: 2018-19</span></span> }
+					pageDescription= {howToUseContent[0].content.body}
+					showLegend={ true }
+					/>
+        <div className="data-viz-col exp-summary">
+          {createDataUIComponent()}
         </div>
         <div>
-
         </div>
       </div>
-		)
-	}
+    );
+
 }
-export default ExpSummary;
+
+ExpSummary.propTypes = {
+  exp_summary: PropTypes.object.isRequired,
+  getExpSummaryData: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  exp_summary: state.exp_summary
+})
+
+
+export default connect(mapStateToProps, { getExpSummaryData })(ExpSummary);

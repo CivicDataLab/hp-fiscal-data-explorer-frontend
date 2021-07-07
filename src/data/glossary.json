@@ -1,0 +1,249 @@
+{
+  "general":{
+    "title": "General Terminology",
+    "data": {
+      "demand_id": {
+        "title": "Demand ID",
+        "desc": "The Identification number for the demand for grant"
+      },
+      "demand_name": {
+        "title": "Demand Name",
+        "desc": "The description of the demand for grant under that ID"
+      },
+      "sanction_for_19_20": {
+        "title": "Sanction for 2019-20 (INR)",
+        "desc": "The amount of expenditure under the specific grant ‘projected’ by the government for 2019-20"
+      },
+      "sanction_for_18_19": {
+        "title": "Sanction for 2018-19 (INR)",
+        "desc": "The amount of expenditure under the specific grant ‘projected’ by the government for 2018-19"
+      },
+      "percent_change": {
+        "title": "Percent Change",
+        "desc": "The percentage difference between the sanctioned amounts for 2018-19 and 2019-20"
+      },
+      "demand_details": {
+        "title": "Demand Details",
+        "desc": "Details about the specific demand for grants"
+      },
+      "demand": {
+        "title": "Demand",
+        "desc": "The description and Identification number of specific demand for grants"
+      },
+      "account_heads": {
+        "title": "Account Heads",
+        "desc": "are meant to represent the nature of the income or expenditure, these also represent hierarchical money flow. They are demand,major,sub_major, minor, sub_minor, budget. For example a demand 16 corresponds to Forests and wildlife, under which a major of 2406 further drills down into this demand. A sub-major of 01 under this major corresponds to Forestry, under this a sub-minor of 105 corresponds to Forest produce, a subminor of 003 under this corresponds to Driftwood and confiscated forest produce."
+      },
+      "plan": {
+        "title": "Plan",
+        "desc": "Money spent by the Government for heads such as salaries, Loans, subsides, Interests etc."
+      },
+      "non_plan": {
+        "title": "Non Plan",
+        "desc": "Money spent on various projects of Ministries"
+      },
+      "voted": {
+        "title": "Voted",
+        "desc": "There needs to be voting by all government representatives to pass this expenditure"
+      },
+      "charged": {
+        "title": "Charged",
+        "desc": "This amount needs to be passed without voting"
+      },
+      "gross": {
+        "title": "Gross",
+        "desc": "Total Allotted amount"
+      },
+      "agded": {
+        "title": "AGDED",
+        "desc": "Amount added to allotted amount"
+      },
+      "btded": {
+        "title": "BTDED",
+        "desc": "Amount saved from total allotted amount"
+      },
+      "net_payment": {
+        "title": "Net Payment",
+        "desc": "Gross + AGDED - BTDED"
+      },
+      "ddo_code": {
+        "title": "DDO Code",
+        "desc": "A unique code for each Drawing and Disbursing Officer (DDO); the officer responsible for drawing funds from Treasuries and disburse to proper recipients."
+      },
+      "treasury_code": {
+        "title": "Treasury Code",
+        "desc": "Every District has a treasury through which it conducts transactions. Every Treasury has its own unique code that is mentioned here"
+      }
+    }
+  },
+
+  "exp_demandwise":{
+    "title": "Expenditure Demandwise",
+    "data": {
+      "demand": {
+        "title": "Demand",
+        "desc": "Department in the State government"
+      },
+      "major": {
+        "title": "Major Head",
+        "desc": "Function of the government"
+      },
+      "sub_major": {
+        "title": "Sub-Major head",
+        "desc": "A subsection with this function"
+      },
+      "minor": {
+        "title": "Minor Head",
+        "desc": "A programme within a sub-sector"
+      },
+      "sub_minor": {
+        "title": "Sub Minor Head",
+        "desc": "A scheme within a programme"
+      },
+      "voted_charged": {
+        "title": "Voted/Charged",
+        "desc": "Expenditure that has to be authorised by the legislature/parliament is Voted Expenditure while that which is automatically debited from the Consolidated Fund of India is called Charged Expenditure. E.g.: interest payments, salaries of the President, Lok Sabha speaker, etc. cannot be voted upon in the Parliament."
+      },
+      "plan_nonplan": {
+        "title": "Plan/Non-Plan",
+        "desc": "Money spent by the Government for heads such as salaries, Loans, subsides, Interests etc are considered plan and Non-plan is Money spent on all other projects of Ministries"
+      },
+      "sanction": {
+        "title": "Sanction",
+        "desc": "Refer to the amounts of expenditure ‘projected’ by the government for the ongoing/approaching financial"
+      },
+      "addition": {
+        "title": "ADDITION",
+        "desc": "Amount that is added in the sanctioned amount to meet the requirements"
+      },
+      "saving": {
+        "title": "SAVING",
+        "desc": "Amount saved after considering addition"
+      },
+      "revised": {
+        "title": "REVISED (Sanction+Addition-Saving)",
+        "desc": "This refers to the final balance for particular head"
+      }
+    }
+  },
+
+  "exp_districtwise":{
+    "title": "Expenditure Districtwise",
+    "data": {
+      "Treasury_Code":{
+        "title": "Treasury Code",
+        "desc": "Every District has a treasury through which it conducts transactions. Every Treasury has its own unique code that is mentioned here"
+      },
+      "DDO_Code":{
+        "title": "DDO Code",
+        "desc": "A unique code for each Drawing and Disbursing Officer (DDO); the officer responsible for drawing funds from Treasuries and disburse to proper recipients."
+      },
+      "demand":{
+        "title": "Demand",
+        "desc": "Department in the State government"
+      },
+      "major":{
+        "title": "Major Head",
+        "desc": "Function of the government"
+      },
+      "sub_major":{
+        "title": "Sub-Major head",
+        "desc": "A subsection with this function"
+      },
+      "minor":{
+        "title": "Minor Head",
+        "desc": "A programme within a sub-sector"
+      },
+      "sub_minor":{
+        "title": "Sub Minor Head",
+        "desc": "A scheme within a programme"
+      },
+      "voted_charged":{
+        "title": "Voted/Charged",
+        "desc": "Expenditure that has to be authorised by the legislature/parliament is Voted Expenditure while that which is automatically debited from the Consolidated Fund of India is called Charged Expenditure. E.g.: interest payments, salaries of the President, Lok Sabha speaker, etc. cannot be voted upon in the Parliament."
+      },
+      "plan_nonplan":{
+        "title": "Plan/Non-Plan",
+        "desc": "Money spent by the Government for heads such as salaries, Loans, subsides, Interests etc are considered plan and Non-plan is Money spent on all other projects of Ministries"
+      },
+      "gross":{
+        "title": "Gross",
+        "desc": "Total Allotted amount"
+      },
+      "AGDED":{
+        "title": "AGDED",
+        "desc": "Amount added to allotted amount"
+      },
+      "BTDED":{
+        "title": "BTDED",
+        "desc": "Amount saved from total allotted amount"
+      },
+      "net_payment":{
+        "title": "Net Payment",
+        "desc": "Amount saved from total allotted amount"
+      }
+    }
+  },
+
+  "receipts":{
+    "title": "Receipts",
+    "data": {
+      "major": {
+        "title": "Major",
+        "desc": "Function of the government"
+      },
+      "sub_major": {
+        "title": "Sub Major",
+        "desc": "A subsection with this function"
+      },
+      "minor": {
+        "title": "Minor",
+        "desc": "A programme within a sub-sector"
+      },
+      "sub_minor": {
+        "title": "Sub Minor",
+        "desc": "A scheme within a programme"
+      }
+    }
+  },
+
+  "receipts_districtwise":{
+    "title": "Receipts Districtwise",
+    "data": {
+      "Treasury_Code": {
+        "title": "Treasury Code",
+        "desc": "Every District has a treasury through which it conducts transactions. Every Treasury has its own unique code that is mentioned here"
+      },
+      "DDO_Code": {
+        "title": "DDO Code",
+        "desc": "A unique code for each Drawing and Disbursing Officer (DDO); the officer responsible for drawing funds from Treasuries and disburse to proper recipients."
+      },
+      "major_code": {
+        "title": "Major",
+        "desc": "Function of the government"
+      },
+      "sub_major_code": {
+        "title": "Sub Major",
+        "desc": "A subsection with this function"
+      },
+      "minor_code": {
+        "title": "Minor",
+        "desc": "A programme within a sub-sector"
+      },
+      "sub_minor_code": {
+        "title": "Sub Minor",
+        "desc": "A scheme within a programme"
+      }
+    }
+  },
+
+  "schemes":{
+    "title": "Schemes",
+    "data": {
+      "schemes" : {
+        "title": "Schemes",
+        "desc": "Relevant Socio-economic programmes"
+      }
+    }
+  }
+}

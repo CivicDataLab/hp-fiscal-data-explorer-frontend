@@ -1,0 +1,34 @@
+.tooltip{
+  position: absolute;
+  color: $white;
+  border: 0.5px solid $white;
+  background-color: $black;
+  width: 275px;
+  padding: 1rem;
+
+
+  .tt_body{
+    padding-top: 0.5rem;
+    font-weight: 600;
+
+
+    p{
+      color: $white;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      font-weight: 600;
+    }
+  }
+
+  p{
+    font-size: 12px;
+    line-height: 1.7em;
+
+    &.tt_title{
+      color: $light_grey;
+
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid $extra_light_grey;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+.f-did-you-know-wrapper{
+    position: relative;
+    padding: 8rem 8rem;
+    background-color: $black;
+    color: $white;
+    margin-top: 8rem;
+    margin-left: -4rem;
+    margin-right: -4rem;
+
+    .did-you-know__chevron-left, .did-you-know__chevron-right{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      &.disabled{
+        cursor: not-allowed;
+        fill: $dark-grey;
+        opacity: 0.5;
+      }
+    }
+
+    .did-you-know__chevron-left{ left: 4rem; fill: $white }
+
+    .did-you-know__chevron-right{ right: 4rem; fill: $white }
+}
+
+.did-you-know-section-title{
+  @include serif-style-2();
+}
+
+  .f-did-you-know-content-wrapper{
+    // padding-bottom: 2rem;
+    display: flex;
+    overflow: hidden;
+
+    &.f-did-you-know-content-wrapper--text{
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &.f-did-you-know-content-wrapper--img{
+      display: flex;
+      position: relative;
+    }
+
+    .did-you-know-slide{
+      flex: 1 0 100%;
+
+      &.did-you-know-slide--img{
+        transition: opacity 0.3s ease-out;
+        display: flex;
+        justify-content: center;
+
+        img{ width: 80%;}
+      }
+
+      &.did-you-know-slide--text{
+        transition: transform 0.3s ease-out;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .f-did-you-know__body{
+        padding-top: 1rem;
+        @include serif-style-3--italic
+      }
+
+      .f-did-you-know__link{
+        display: block;
+        padding-top: 1rem;
+        @include serif-style-3--italic();
+      }
+    }
+  }
+
+  @media screen and ( max-width : 1055px){
+    .f-did-you-know-wrapper{
+      padding: 4rem 2rem;
+
+      .did-you-know__chevron-left{ left: 2rem; }
+
+      .did-you-know__chevron-right{ right: 2rem; }
+    }
+
+    .f-did-you-know-content-wrapper{
+      &.f-did-you-know-content-wrapper--img{
+        padding-top: 2rem;
+      }
+
+      .did-you-know-slide{
+        &.did-you-know-slide--text{
+          display: block;
+        }
+
+        &.did-you-know-slide--img{
+          // display: block;
+        }
+      }
+    }
+  }
+
+  @media screen and ( max-width : 671px){
+    .f-did-you-know-wrapper{
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+  }

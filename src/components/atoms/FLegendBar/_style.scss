@@ -1,0 +1,33 @@
+.f-legend-bar{
+  display: flex;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid $light-grey;
+  margin-right: 2rem;
+
+  .f-legend-item{
+    padding: 0.5rem;
+    padding-right: 3rem;
+  }
+}
+
+
+.f-legend-item--flex{
+  display: flex;
+  align-items: center;
+
+  .groove-icon--groove{
+    width: 16px;
+    height: 12px;
+  }
+
+  .groove-icon--bubble{
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .groove-text{
+    padding: 0.5rem;
+    padding-right: 3rem;
+  }
+}

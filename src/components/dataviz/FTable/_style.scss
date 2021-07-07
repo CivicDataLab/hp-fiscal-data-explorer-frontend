@@ -4,6 +4,10 @@
   height: 3rem;
 }
 
+.bx--overflow-menu-options__btn{
+  padding: 0;
+}
+
 .bx--data-table-container{
     min-width: 0;
 }
@@ -12,7 +16,16 @@
     min-width: 31.25rem;
 }
 
+.bx--data-table-header{
+  display: none;
+}
+
 //not-override
 .data-table-wrapper{
   overflow-x: scroll;
+}
+
+.f-table-comp-wrapper{
+  padding-top: 2rem;
+  padding-right: 2rem;
 }
