@@ -1,0 +1,26 @@
+@import "~antd/dist/antd.css";
+
+.ant-picker-cell::before {
+	top: 25%;
+}
+
+
+.ant-picker-cell-in-view.ant-picker-cell-range-hover-start:not(.ant-picker-cell-in-range):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end)::after, .ant-picker-cell-in-view.ant-picker-cell-range-hover-end:not(.ant-picker-cell-in-range):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end)::after, .ant-picker-cell-in-view.ant-picker-cell-range-hover-start.ant-picker-cell-range-start-single::after, .ant-picker-cell-in-view.ant-picker-cell-range-hover-end.ant-picker-cell-range-end-single::after, .ant-picker-cell-in-view.ant-picker-cell-range-hover:not(.ant-picker-cell-in-range)::after {	
+  top: 25%;
+}
+
+.ant-picker-header{
+  pointer-events: none !important;
+}
+
+.ant-picker-header > button{
+  display: none;
+}
+
+.ml-20{
+  margin-left: 20px;
+}
+
+.d-flex{
+  display: flex;
+}

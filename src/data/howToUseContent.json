@@ -1,0 +1,85 @@
+
+
+  [
+    {
+      "id": "expenditure_summary",
+      "label": "Expenditure Summary",
+      "content": {
+        "title": "Expenditure Summary",
+        "body": [
+          "This bubble chart provides an overview of  the expenditure incurred by the different budget heads for  the Government of Himachal Pradesh in the Financial Year 2018-19.The size of the bubble represents the amount of expenditure for a particular head of account compared to other heads.",
+          "These bubbles also lie on a percentage scale from -40% to 70% which indicates the increase or decrease in expenditure compared to the previous fiscal year."
+
+        ],
+        "link": {
+          "text": "View Expenditure Summary",
+          "route": "/expenditure/summary"
+        },
+        "img": "placeholder"
+      }
+    },
+    {
+      "id": "expenditure_districtwise",
+      "label": "Expenditure | Districtwise",
+      "content": {
+        "title": "Expenditure | Districtwise",
+        "body": [
+          "This section provides an aggregate account of all expenditure made by the Government of Himachal Pradesh as well as more detailed accounts of expenditure across time, districts, treasuries and Drawing and Disbursing Officers.",
+          "This data can be obtained in the form of a Geovisualization, a bar chart, a time-series trend as well as a table that can be downloaded in .csv and .json formats to enable users to obtain grant specific data points at a more granular level."
+        ],
+        "link": {
+          "text": "View Expenditure Districtwise",
+          "route": "/expenditure/tracker"
+        },
+        "img": "treasury_exp"
+      }
+    },
+    {
+      "id": "receipts",
+      "label": "Receipts | Demand Details",
+      "content": {
+        "title": "Receipts | Demand Details",
+        "body": [
+          "This section provides a detailed account of all revenue accrued to the Government of Himachal Pradesh under different heads of accounts. Heads of accounts are meant to represent the nature of the receipts and the hierarchical flow of money. In this page, you can explore the aggregate revenue accrued to the departments as well as more detailed accounts of the revenue across time.",
+          "This data can be obtained in the form of a visual as well as a table that can be downloaded in .csv and .json to enable users to obtain grant specific data points at a more granular level."
+        ],
+        "link": {
+          "text": "View Receipts Demand Details",
+          "route": "/receipts"
+        },
+        "img": "budget_receipts"
+      }
+    },
+    {
+      "id": "receipts_districtwise",
+      "label": "Receipts | Districtwise",
+      "content": {
+        "title": "Receipts | Districtwise",
+        "body": [
+          "This section provides an aggregate account of all receipts accrued to the Government of Himachal Pradesh as well as more detailed accounts of revenue across time, districts, treasuries and Drawing and Disbursing Officers.",
+          "This data can be obtained in the form of a Geovisualization, a bar chart, a time-series trend as well as a table that can be downloaded in .csv and .json formats to enable users to obtain grant specific data points at a more granular level."
+        ],
+        "link": {
+          "text": "View Receipts Districtwise",
+          "route": "/receipts/districtwise"
+        },
+        "img": "treasury_rec"
+      }
+    },
+    {
+      "id": "schemes",
+      "label": "Schemes",
+      "content": {
+        "title": "Schemes",
+        "body": [
+          "This section provides detailed accounts of expenditure on selected centrally sponsored schemes and state schemes. For the purposes of this dashboard we concentrated on a specific sector: Children.",
+          "Under this we focused on a gamut of schemes from various social and economic sectors and then narrowed it down to schemes that flow through the treasury and hence can be tracked through the same."
+        ],
+        "link": {
+          "text": "View Schemes",
+          "route": "/schemes"
+        },
+        "img": "schemes"
+      }
+    }
+  ]

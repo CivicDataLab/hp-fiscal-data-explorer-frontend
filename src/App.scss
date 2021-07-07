@@ -1,42 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital@0;1&display=swap');
 @import './scss/vars.scss';
 
 // @import './scss/normalize.scss';
 @import './scss/vars.scss';
 
+// Antd styles
+@import "~antd/dist/antd.css";
+
 //components styles
 @import './components/atoms/FButton/style.scss';
+@import './components/atoms/FLoading/style.scss';
+@import './components/atoms/FLegendBar/style.scss';
+@import './components/molecules/FMonthPicker/style.scss';
+@import './components/molecules/FDropdown/style.scss';
+@import './components/molecules/FDownloadActionTooltip/style.scss';
+@import './components/molecules/FLegend/style.scss';
 @import './components/organisms/FHeader1/style.scss';
-@import './components/organisms/FHeader2/style.scss';
+@import './components/organisms/FPageTitle/style.scss';
+@import './components/organisms/FFilterColumn2/style.scss';
+@import './components/organisms/HomeHowToUse/style.scss';
 
 //datavizcomps styles
-
 @import './components/dataviz/FTable/style.scss';
 @import './components/dataviz/FSASRChart/style.scss';
 @import './components/dataviz/FBarChart/style.scss';
+@import './components/dataviz/FForce_X/style.scss';
+@import './components/dataviz/FMap/style.scss';
+@import './components/organisms/DidYouKnow/style.scss';
+@import './components/organisms/FNoDataFound/style.scss';
 
 //content styles
 @import './content/Home/style.scss';
 @import './content/AboutUs/style.scss';
 @import './content/ContactUs/style.scss';
+@import './content/Glossary/style.scss';
 @import './content/ExpSummary/style.scss';
 @import './content/ExpDetails/style.scss';
-@import './content/ExpTracker/style.scss';
+@import './content/ExpDistrictwise/style.scss';
+
+body{
+  font-family: 'IBM Plex Sans' !important;
+}
 
 //carbon overrides
-.bx--content{
-  padding-top: 8rem;
+.f-content{
+  padding-top: 4rem;
   transform: none;
 
-  @media screen and (max-width: 767px){
-    padding-top: 5rem;
+  &.aboutus{
+    padding-bottom: 3rem;
   }
 }
 
 .text-col{
-  position: fixed;
+
   width: 30rem;
-  left: 2rem;
-  top: 8rem;
+
   background-color: $extra_light_grey;
   padding: 2rem;
 
@@ -52,32 +71,64 @@
   }
 }
 
+//custom
+
+.f-light-grey{
+  color: $grey;
+}
+
 .filter-col-wrapper{
   height: 100vh;
   position: fixed;
-  width: 16rem;
-  left: 2rem;
-  top: 0rem;
-  padding: 8rem 0 2rem 0;
+  width: 18rem;
+  left: -18rem;
+  top: 0;
+  padding: 9.8rem 0 0 0;
+  z-index: 10;
+  transition: left 0.3s ease-out;
 
-  .filter-col{
-    background-color: $extra_light_grey;
-    padding: 2rem;
-    height: 100%;
-    overflow: scroll;
+  @media screen and (min-width: 1024px){
+    left: 0;
+  }
+}
 
-    .filter-col--ops{
-      padding-bottom: 2rem;
+@media screen and (max-width: 1023px){
+  .filter-col-wrapper{
+    &.hide{
+      left: -18rem;
+    }
+
+    &.show{
+      left: 0;
     }
   }
 }
 
+
 .data-viz-col{
   width: 100%;
-  padding-left: 32rem;
+  padding-top: 3rem;
+  z-index: 10;
 
-  &.exp-details{
-    padding-left: 18rem;
+  &.exp-details, &.receipts, &.exp-districtwise, &.exp-schemes{
+    padding-left: 2rem;
+
+    @media screen and (min-width: 1024px){
+      padding-left: 20rem;
+    }
+  }
+
+  &.exp-summary{
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    &.timeseries-is-active{
+      padding-left: 2rem;
+
+      @media screen and (min-width: 1024px){
+        padding-left: 20rem;
+      }
+    }
   }
 
   @media screen and (max-width: 1280px){
@@ -85,9 +136,12 @@
   }
 
   @media screen and (max-width: 992px){
-    padding-top: 2rem;
     padding-left: 0;
   }
+}
+
+.viz-view-toggle{
+  padding-top: 2rem;
 }
 
 //content switcher component
@@ -105,4 +159,43 @@
 .content-switcher-wrapper{
   display: flex;
   justify-content: center;
+}
+
+//force style the text in the second column of each table. (For the budget code)
+.bx--data-table tr > td:nth-child(2){
+  font-size: 9px;
+  font-weight: 700;
+}
+//...but dont apply the above styling to the summary page data table
+.exp-summary .bx--data-table tr > td:nth-child(2){
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+//...and in the case of districtwise, apply this style to the 3rd child as well
+.exp-districtwise .bx--data-table tr > td:nth-child(3){
+  font-size: 9px;
+  font-weight: 700;
+}
+
+//force multiselect --> option text to wrap
+.bx--list-box__menu-item .bx--checkbox-label-text{
+  white-space: normal;
+}
+
+.f-link{
+  font-weight: 600;
+  line-height: 1.6em;
+  color: #B3D8E7;
+}
+
+.f-axis-label-style{
+  font-family: 'IBM Plex Sans';
+  font-size: 10px;
+  fill: rgb(37, 37, 37);
+  font-weight: 400;
+  text-transform: uppercase;
+  word-spacing: 0.2em;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
 }

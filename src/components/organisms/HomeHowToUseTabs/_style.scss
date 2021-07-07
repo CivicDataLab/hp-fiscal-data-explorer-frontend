@@ -1,0 +1,25 @@
+.f-tab-content-wrapper{
+  padding-top: 6rem;
+
+  .f-tab-content__text-wrapper{
+    padding-right: 9rem;
+
+    .f-tab-content__title{
+      font-weight: 600;
+    }
+
+    .f-tab-content__body{
+      padding-top: 1rem;
+    }
+
+    .f-tab-content__link{
+      display: block;
+      padding-top: 1rem;
+    }
+  }
+
+  .f-tab-content__img{
+    width: 100%;
+    box-shadow: -1.5rem 1.5rem 0px rgba(0,0,0,0.1);
+  }
+}

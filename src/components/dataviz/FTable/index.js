@@ -2,12 +2,9 @@ import React, {
   Component
 } from "react";
 import {Content} from 'carbon-components-react/lib/components/UIShell';
+import { DataTable, Button, Tooltip } from 'carbon-components-react';
 
-import { DataTable } from 'carbon-components-react';
-import { Button } from 'carbon-components-react';
-// De-structure `DataTable` directly to get local references
-import Download16 from '@carbon/icons-react/lib/download/16';
-
+import FDownloadActionTooltip from '../../molecules/FDownloadActionTooltip'
 
 const {
   TableContainer,
@@ -45,7 +42,7 @@ class FTable extends Component {
 
 
     return (
-      <div>
+      <div className="f-table-comp-wrapper">
               <DataTable
                 rows={this.props.rows}
                 headers={this.props.headers}
@@ -55,7 +52,11 @@ class FTable extends Component {
                     <TableToolbar>
                         <TableToolbarContent>
                           <TableToolbarSearch  onChange={onInputChange} />
-                          <TableToolbarAction> <Download16/> </TableToolbarAction>
+                          <TableToolbarAction onClick={this.props.onClickDownloadBtn}>
+                            <FDownloadActionTooltip
+                              data={this.props.rows}
+                              />
+                        </TableToolbarAction>
                           {
                             // <Button onClick={() => this.consoleFilteredRows(rows)} small kind="primary">
                             //   Add new

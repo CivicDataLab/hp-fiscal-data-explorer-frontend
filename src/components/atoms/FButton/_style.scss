@@ -1,0 +1,9 @@
+.f-button{
+  background-color: $brandBlueDark;
+  transition: background-color 0.3s ease-out;
+  padding: 0 2rem;
+
+  &:hover{
+    background-color: $brandBlueMid;
+  }
+}

@@ -1,190 +1,213 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, Fragment } from "react";
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+//actions
+import { getExpSummaryData } from '../../actions/exp_summary';
+
 //carbon components
 import { Content } from 'carbon-components-react/lib/components/UIShell';
 import { ContentSwitcher, Switch } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
 
-
 //custom components
+import FLoading from '../../components/atoms/FLoading';
 import FTable from '../../components/dataviz/FTable';
 import FSlope from '../../components/dataviz/FSlope';
-import FForce from '../../components/dataviz/FForce';
+import FFilterColumn2 from '../../components/organisms/FFilterColumn2';
 
-//sample data
-var exp_summary_data = require('../../data/exp-summary.json');
+import FForce_Y from '../../components/dataviz/FForce_Y';
+import FForce_X from '../../components/dataviz/FForce_X';
+import FPageTitle from '../../components/organisms/FPageTitle';
+import FLegendBar from '../../components/atoms/FLegendBar';
+import FRadioGroup from '../../components/molecules/FRadioGroup';
+import FTimeSeries from '../../components/dataviz/FTimeSeries';
+import FDropdown from '../../components/molecules/FDropdown';
 
-//make api call for exp-summary dataviz
+//data
+import howToUseContent from '../../data/howToUseContent.json';
 
-
-//sample slope data
-const sampleSlopeData = [
-  [
-		{ year: "1", sanction: 0.1 },
-		{ year: "4", sanction: 0.5, label: "demand_1" }
-  ],
-  [
-		{ year: "1", sanction: 0.2 },
-		{ year: "4", sanction: 0.5, label: "B" }
-  ],
-  [
-		{ year: "1", sanction: 0.3 },
-		{ year: "4", sanction: 0.6, label: "C" }
-  ]
-]
-//sample table data
-const sampleRows = [{
-		id: 'a',
-		demand_code: '1',
-		sanction: '1000',
-		percent_change: '10%',
-  },
-	{
-		id: 'b',
-		demand_code: '2',
-		sanction: '800',
-		percent_change: '12%'
-  },
-	{
-		id: 'c',
-		demand_code: '3',
-		sanction: '1200',
-		percent_change: '6%'
-  },
-];
-const sampleHeaders = [
-  {
-		key: 'demand_code', // `key` is the name of the field on the row object itself for the header
-		header: 'Demand', // `header` will be the name you want rendered in the Table Header
-  },
-	{
-		key: 'sanction',
-		header: 'Sanction',
-  },
-	{
-		key: 'percent_change',
-		header: 'Pecentage Change Since Last Year',
-  },
-];
-
-const currentYear = "2019";
-const prevYear = "2018";
-
-var slopeData = [];
-
-var tableData = {
-	headers: [],
-	rows: []
-}
-
-const thousands_separators = (num) =>
-  {
-    var num_parts = num.toString().split(".");
-    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return num_parts.join(".");
-  }
-
-//
-exp_summary_data.map((d, i) => {
-
-	i === 0 && tableData.headers.push(
-    { key: 'demandid', header: 'Demand ID' },
-    { key: 'demandname', header: 'Demand Name' },
-    { key: 'sanctioncurrent', header: 'Sanction This Year (INR)' },
-    { key: 'sanctionprevious', header: 'Sanction Last Year (INR)' },
-    { key: 'rateOfChange', header: '% Change' }
-  );
-
-	tableData.rows.push({
-		id: i,
-		'demandid': d.demandid,
-		'demandname': d.demandname,
-		'sanctioncurrent': Math.round(d.sanctioncurrent*100)/100,
-		'sanctionprevious': Math.round(d.sanctionprevious*100)/100,
-		'rateOfChange': Math.round((d.rateOfChange*100) * 100)/100
-	})
-})
+import FPageMeta from '../../components/organisms/FPageMeta';
 
 //Name of components to switch between
-const sec1VizTypes = ["FForce", "FTable"];
+const vizTypes = ["FForce", 'FLineChart', "FTable"];
 
-const props = {
-	FTable: {
-		rows: tableData.rows,
-		headers: tableData.headers
+ // const lineChrtData = [
+	// 	{
+	// 		name : "name1", //optional
+	// 		exp_alloc : 'allocated',
+	// 		yearwise : [
+	// 			{ year : "2017" , amount : 0},
+	// 			{ year : "2018" , amount : 3},
+	// 			{ year : "2019" , amount : 2},
+	// 			{ year : "2020" , amount : 1}
+	// 		]
+	// 	},
+	// 	{
+	// 		name : "name2", //optiona;
+	// 		exp_alloc : 'expenditure',
+	// 		yearwise : [
+	// 			{ date : "2017" ,  amount : 3},
+	// 			{ date : "2018" , amount : 1},
+	// 			{ date : "2019" , amount : 4},
+	// 			{ date : "2020" , amount : 1}
+	// 		]
+	// 	}
+	// ]
+ //...
+
+
+const ExpSummary = ({
+	exp_summary : {
+		loading,
+		vizData,
+		lineChrtData,
+		tableData : { rows, headers}
+	},
+	getExpSummaryData
+ }) => {
+
+	const [currentVizType, setCurrentVizType] = useState(vizTypes[0]);
+	const switchVizType = (e) => { setCurrentVizType(vizTypes[e.index]); }
+
+	const [activeDataPoint, setActiveDataPoint] = useState('alloc');
+	const [activeVizData, setActiveVizData] = useState([]);
+
+	const [activeDemandForTimeseries, setActiveDemandForTimeseries] = useState('All Demands');
+	const handleChangeActiveDemandForTimeSeries = v => setActiveDemandForTimeseries(v.selectedItem);
+
+	const handleDataPointChange = (value,name) => {
+		setActiveDataPoint(value);
+		console.log('value',value)
+		setActiveVizData(populateActiveVizData(value));
 	}
-}
 
+	const genDemandSelector = () => (
+		<FDropdown
+			initialSelectedItem = {activeDemandForTimeseries}
+			items = { Object.keys(lineChrtData) }
+			onChange = {(v) => handleChangeActiveDemandForTimeSeries(v)}
+			/>
+	)
 
-class ExpSummary extends Component {
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-      currentSec1VizType: sec1VizTypes[0],
-      data: {
-        "nodes": exp_summary_data,
-        "apiData": {
-          data: null,
-          isLoading: true,
-          errors: null
-        }
-      }
-    };
-		this.switchSec1VizType = this.switchSec1VizType.bind(this);
+	const populateActiveVizData = (activeProperty) => {
+		let tempData = [];
+		vizData.map(d => {
+			let dataObj = {};
+			dataObj.demand = d.demand;
+			dataObj.demand_description = d.demand_description;
+			dataObj.pct_change = d[activeProperty].pct_change;
+			dataObj.current = d[activeProperty].current;
+			dataObj.previous = d[activeProperty].previous;
+			tempData.push(dataObj)
+		})
+		return tempData;
 	}
 
-  async getData(apiUrl){
-    try{
-      const res = await axios.get(apiUrl);
-      console.log(res);
-    }catch(err){
-      console.log(err);
-    }
-  }
+	useEffect(() => {
+		if(vizData.length > 0){
+			setActiveVizData(populateActiveVizData('alloc'));
+		}
 
-	switchSec1VizType(e) {
-		this.setState({ currentSec1VizType: sec1VizTypes[e] })
-	}
+	},[vizData])
 
-  componentDidMount() {
-    this.getData("http://13.126.189.78/api/exp_summary");
-}
+	const genTimeSeries = () => (
+		<Fragment>
+			<FTimeSeries
+				dataToX="year"
+				dataToY={"amount"}
+				data={lineChrtData[activeDemandForTimeseries]}
+				dataAryName="yearwise"
+				
+				xLabelFormat={lineChrtData['All Demands'][0].yearwise.map(obj => obj.year)}
+				lineLabel="exp_alloc"
+			/>
+		</Fragment>
+	)
 
-	render() {
-
-		var currentSec1VizComp;
-		this.state.currentSec1VizType === sec1VizTypes[0] ?
-			currentSec1VizComp = <FForce data={this.state.data} /> :
-			currentSec1VizComp = <FTable {...props.FTable}  />;
-
-		return (
-			<div className="exp-summary-content">
-        <div className="text-col">
-          <h3>Some title text</h3>
-          <p>
-            Carbon is IBM’s open-source design system for digital
-            products and experiences. With the IBM Design Language
-            as its foundation, the system consists of working code,
-            design tools and resources, human interface guidelines,
-            and a vibrant community of contributors.
-          </p>
-        </div>
-        <div className="data-viz-col exp-summary">
-          <div className="content-switcher-wrapper">
-            <ContentSwitcher onChange={this.switchSec1VizType} >
+	const createDataUIComponent = () => {
+		if(loading === true){
+			return <FLoading/>
+		}else{
+			return (
+				<Fragment>
+					<div className="content-switcher-wrapper">
+            <ContentSwitcher onChange={switchVizType} selectedIndex={vizTypes.indexOf(currentVizType)} >
               <Switch  text="Bubble Chart" />
-              <Switch  text="Table" />
+              <Switch  text="Timeseries" />
+							<Switch  text="Table" />
             </ContentSwitcher>
           </div>
-          {currentSec1VizComp}
-        </div>
-        <div>
-
-        </div>
-      </div>
-		)
+					{
+						currentVizType === vizTypes[0] ?
+						<Fragment>
+							<FLegendBar
+								vizType='bubble'
+								data={[
+									{key: 'The bigger the size of the circle the bigger is the amount', type: 'bubble', color: 'black'}
+								]}
+								/>
+							<FRadioGroup
+								className = "viz-view-toggle"
+								name = "FSmryDataPointSwitcher"
+								titleText = "View:"
+								onChange = {(value, name) => handleDataPointChange(value, name)}
+								items = {[
+									{ label : "Allocated", id : "alloc" },
+									{ label : "Expenditure", id : "exp" },
+								]}
+								valueSelected = {activeDataPoint}
+							/>
+						<div id="data_viz_wrapper" className="data-viz-wrapper">
+								<FForce_X
+									nodes={activeVizData && activeVizData}
+									activeDataPoint = {activeDataPoint}
+									/>
+								{/* <FForce_Y nodes={this.props.exp_summary.data} />*/}
+							</div>
+						</Fragment>
+						:
+						currentVizType === vizTypes[1] ?
+						<Fragment>{genTimeSeries()}</Fragment>
+						:
+						<FTable rows={rows} headers={headers} />
+					}
+				</Fragment>
+			)
+		}
 	}
+
+    return (
+      <div className={`f-content exp-summary-content`}>
+				<FPageMeta pageId = 'expenditure_summary' />
+				<FPageTitle
+					pageTitle={ <span>Expenditure | Summary  <span className="f-light-grey">{`| FY: ${vizData.length > 0 && vizData[0].curr_year.split('_').join(' - ')}`}</span></span> }
+					pageDescription= {howToUseContent[0].content.body}
+					showLegend={ true }
+					/>
+        <div className={`data-viz-col exp-summary ${currentVizType === vizTypes[1] ? 'timeseries-is-active' : ''}`}>
+          {createDataUIComponent()}
+        </div>
+			{ currentVizType === vizTypes[1] &&
+				<div className={`filter-col-wrapper`}>
+					<FFilterColumn2
+	          customComp = {<div>{genDemandSelector()}</div>}
+	          />
+				</div> }
+      </div>
+    );
+
 }
-export default ExpSummary;
+
+ExpSummary.propTypes = {
+  exp_summary: PropTypes.object.isRequired,
+  getExpSummaryData: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  exp_summary: state.exp_summary
+})
+
+
+export default connect(mapStateToProps, { getExpSummaryData })(ExpSummary);

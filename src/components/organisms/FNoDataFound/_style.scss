@@ -1,0 +1,19 @@
+.f-no-data-found-container{
+  text-align: center;
+  // padding: 4rem;
+
+  .f-no-data-found-container__img{
+    max-width: 23rem;
+    width: 100%;
+  }
+
+  .f-no-data-found-container__text-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .f-no-data-found-container__text{
+      max-width: 32rem;
+    }
+  }
+}

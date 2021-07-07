@@ -1,0 +1,55 @@
+{
+  "home" : {
+    "description" : "Page description",
+    "title" : "Himachal Fiscal Data Explorer",
+    "img" : "Himachal Fiscal Data Explorer is a unique tool where citizens can explore both budgets and spending data of state governments in an easy to comprehend and simple to use manner."
+  },
+
+  "receipts": {
+    "description" : "This section provides a detailed account of all revenue accrued to the Government of Himachal Pradesh under different heads of accounts. Heads of accounts are meant to represent the nature of the receipts and the hierarchical flow of money. In this page, you can explore the aggregate revenue accrued to the departments as well as more detailed accounts of the revenue across time.",
+    "title" : "Himachal Fiscal Data Explorer : Receipts | Demand Details",
+    "img" : "ReceiptsImg"
+  },
+
+  "receipts_districtwise": {
+    "description" : "This section provides an aggregate account of all receipts accrued to the Government of Himachal Pradesh as well as more detailed accounts of revenue across time, districts, treasuries and Drawing and Disbursing Officers.",
+    "title" : "Receipts | Districtwise",
+    "img" : "ReceiptsDistrictwiseImg"
+  },
+
+  "expenditure_summary": {
+    "description" : "This bubble chart provides an overview of  the expenditure incurred by the different budget heads for  the Government of Himachal Pradesh in the Financial Year 2018-19.The size of the bubble represents the amount of expenditure for a particular head of account compared to other heads.",
+    "title" : "Himachal Fiscal Data Explorer : Expenditure Summary",
+    "img" : "ExpSummaryImg"
+  },
+
+  "expenditure_demandwise": {
+    "description" : "This section provides a detailed account of all expenditures incurred by the Government of Himachal Pradesh under different heads of accounts. Heads of accounts are meant to represent the nature of the expenditure and the hierarchical flow of money. In this page, you can explore the aggregate expenditure made by the departments as well as more detailed accounts of expenditure across time.",
+    "title" : "Himachal Fiscal Data Explorer : Expenditure | Demand Details",
+    "img" : "ExpDetailsImg"
+  },
+
+  "expenditure_districtwise": {
+    "description" : "Page description",
+    "title" : "Himachal Fiscal Data Explorer : Expenditure | Districtwise",
+    "img" : "This section provides an aggregate account of all expenditure made by the Government of Himachal Pradesh as well as more detailed accounts of expenditure across time, districts, treasuries and Drawing and Disbursing Officers."
+  },
+
+  "schemes": {
+    "description" : "This section provides detailed accounts of expenditure on selected centrally sponsored schemes and state schemes. For the purposes of this dashboard we concentrated on a specific sector: Children.",
+    "title" : "Schemes",
+    "img" : "ExpSchemesImg"
+  },
+
+  "glossary": {
+    "description" : "Himachal Fiscal Data Explorer is a unique tool where citizens can explore both budgets and spending data of state governments in an easy to comprehend and simple to use manner.",
+    "title" : "Himachal Fiscal Data Explorer : Glossary of Terms",
+    "img" : "GlossaryImg"
+  },
+
+  "about_us": {
+    "description" : "Himachal Fiscal Data Explorer is a unique tool where citizens can explore both budgets and spending data of state governments in an easy to comprehend and simple to use manner.",
+    "title" : "Himachal Fiscal Data Explorer : About the Team",
+    "img" : "AboutUsImg"
+  }
+}

@@ -6,4 +6,21 @@
     width: auto;
     height: 3rem;
   }
+
+  .f-table-comp-wrapper{
+    .bx--data-table-container{
+      .data-table-wrapper{
+        .bx--data-table{
+          thead{
+            .bx--table-sort { padding-left: 0 }
+            tr > th:nth-child(3n-2){ border-right: 1px solid $black }
+          }
+
+          tbody{
+            tr > td:nth-child(3n-2){ border-right: 1px solid $black }
+          }
+        }
+      }
+    }
+  }
 }
