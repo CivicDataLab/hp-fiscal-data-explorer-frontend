@@ -1,2 +1,27 @@
 $white: #ffffff;
+$black: #171717;
 $extra_light_grey: #f3f3f3;
+$light_grey: #e4e4e4;
+$dark-grey: #9a9a9a;
+$grey: #c3c3c3;
+$orange: rgb(255, 97, 0);
+$blue: rgb(0, 119, 255);
+$shadow_light: rgba(0,0,0,0.2);
+
+@mixin box_shadow_light() {
+   -webkit-box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.2);
+   -moz-box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.2);
+   box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.2);
+}
+
+:export {
+  blue: $blue;
+  orange: $orange;
+  black: $black;
+  darkGrey: $dark-grey;
+  grey: $grey;
+  lightGrey: $light_grey;
+  extraLightGrey: $extra_light_grey;
+  white: $white;
+  black: $black;
+}

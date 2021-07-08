@@ -1,3 +1,27 @@
+.f_header_2{
+  top: 48px;
+}
+
+.f_primarylinks_center{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bx--header__nav.f_primarylinks_center::before{
+  display: none;
+}
+
+@media screen and (min-width: 768px){
+    .f_primarylinks_center, .f_secondarylinks_right{
+      display: block;
+    }
+
+    .bx--header__menu-toggle{
+      display: none;
+    }
+}
+
 .f_secondarylinks_right{
   position: absolute;
   right: 1rem;

@@ -1,6 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types"
 import { Route, Switch } from "react-router-dom";
 import axios from "axios";
+
+//redux
+import { connect } from "react-redux";
+
+//actions
+import { getExpDemandwiseData } from "./actions/exp_demandwise.js"
 
 import MediaQuery from "react-responsive";
 
@@ -35,93 +42,192 @@ import ExpTracker from "./content/ExpTracker";
 import BudgetHighlights from "./content/BudgetHighlights";
 
 import "./App.scss";
+var yymmdd_ref = require("./data/yymmdd_ref.json");
+var scsr_offset = require("./data/scsr_offset.json");
 
-function App() {
+//initialize all filters with init value
+const initExpFilters = { "filters":{} };
+const initDateFrom = "2018-04-01";
+const initDateTo = "2019-03-31";
+
+
+
+
+ const App = ({ getExpDemandwiseData }) => {
   //set app level state containing raw data.
-  const [expData, setExpData] = useState([]);
+  const [expData, setExpData] = useState({
+                                  vizData : {
+                                    data : null ,
+                                    yLabelFormat : null,
+                                    scsrOffset : null
+                                  },
+                                  tableData : {
+                                  	headers: [],
+                                  	rows: []
+                                  }
+                                });
+  const [expDataLoading, setExpDataLoading] = useState(true);
 
-  const [apiDataLoading, setApiDataLoading] = useState(true);
+  const getData = async (payload, dateFrom, dateTo) => {
 
-  const getData = async () => {
-    console.time("Axios Fetch");
-    console.log("Axios Fetch Started");
+    const { months , years, years_short } = yymmdd_ref;
 
-    let expDataToJson = [];
+    console.time("Axios Fetch"); console.log("Axios Fetch Started");
+
+
+    //calc actual number of days between 2 dates
+    var dateFromTime = new Date(dateFrom).getTime();
+    var dateToTime = new Date(dateTo).getTime();
+    var daysDiff = ((dateToTime - dateFromTime) / (1000 * 3600 * 24)) + 2; //this calcs every day BETWEEN the given 2 dates. So add '2' to correct this
+
+
+    const month_week = daysDiff > 125 ? "month" : "week"; //give month-wise breakdown if range > 125 days
+    const fromMonthIndex = parseInt(dateFrom.split('-')[1])-1;
+    const fromYearIndex = years.indexOf(dateFrom.split('-')[0]);
+
     try {
-      const res1 = await axios.get(
-        "http://13.126.189.78/api/detail_exp_test?start=2018-03-01&end=2018-03-01"
+      const config = { headers: { "content-type": "application/json" } };
+      const res = await axios.post(
+        `http://13.126.189.78/api/detail_exp_${month_week}?start=${dateFrom}&end=${dateTo}`, payload, config
       );
-      const res2 = await axios.get(
-        "http://13.126.189.78/api/detail_exp_test?start=2018-04-01&end=2018-04-01"
-      );
-      const res3 = await axios.get(
-        "http://13.126.189.78/api/detail_exp_test?start=2018-05-01&end=2018-05-01"
-      );
-      const res4 = await axios.get(
-        "http://13.126.189.78/api/detail_exp_test?start=2018-06-01&end=2018-06-01"
-      );
-      let resMaster = res1.data.concat(res2.data, res3.data, res4.data);
-      //jsonify data
-      resMaster.map((entryAry, i) => {
-        const entryObj = {};
-        entryAry.map((value, index) => {
-          entryObj[exp_details_keys.keys[index]] = value;
-        });
-        expDataToJson.push(entryObj);
-      });
+      console.log("raw data from API: ");
+      console.log(res.data.records);
+      var tempExpData = [];
+      var tempTableData = {
+        headers : [],
+        rows : []
+      };
+      var highestRecord = 0;
+      res.data.records.map((record, i) => {
+        var dataObj = {};
+        if(i === 0){ //first we identify highest record to define the 'height of mark' appropriately
+          res.data.records.map((record, i) => {
+            if(record[0] > highestRecord){
+              highestRecord = record[0];
+            }
+          })
+        }
 
-      setExpData(expDataToJson);
-      setApiDataLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
+        dataObj.date = month_week === "month" ?
+                       months[(i+fromMonthIndex)%12]+" "+years_short[Math.floor((i+fromMonthIndex)/12) + fromYearIndex] :
+                       "w_"+(i+1)*7;
+        dataObj.sanction = Math.round(record[0]*100)/100;
+        dataObj.addition = Math.round(record[1]*100)/100;
+        dataObj.savings = Math.round(record[2]*100)/100;
+        dataObj.revised = Math.round(record[3]*100)/100;
+        dataObj.mark = Math.round((1/100)*highestRecord);
+        tempExpData.push(dataObj);
+      })
+
+      const calcScsrOffset = (tempExpData) => {
+        const noOfDataRecords = tempExpData.length;
+        return scsr_offset.xOffset[noOfDataRecords - 1];
+
+      }
+
+      const getYLabelFormatVals = (highestRecord) => {
+        const highestRecordLength = Math.floor(highestRecord).toString().length;
+        if( highestRecordLength > 5 ){ return [ 100000 , " L "] }
+        else if( highestRecordLength < 5 && highestRecordLength > 3 ){ return [ 100 , " K "] }
+        else{ return [ 1 , " "] }
+      }
+
+      //setup exp details table data
+      tempExpData.map((d, i) => {
+
+      	i === 0 && tempTableData.headers.push(
+          { key: 'date', header: 'Date' },
+          { key: 'sanction', header: 'Sanction' },
+          { key: 'addition', header: 'Addition' },
+          { key: 'savings', header: 'Savings' },
+          { key: 'revised', header: 'Revised' }
+        );
+
+      	tempTableData.rows.push({
+      		id: i,
+      		'date': d.date,
+      		'sanction': Math.round(d.sanction*100)/100,
+      		'addition': Math.round(d.addition*100)/100,
+      		'savings': Math.round(d.savings*100)/100,
+      		'revised': Math.round(d.revised*100)/100
+      	})
+      })
+
+      console.log("highestRecord: " + highestRecord);
+      console.log(getYLabelFormatVals(highestRecord)[0]);
+
+      setExpData({
+        vizData : {
+          yLabelFormat:["", getYLabelFormatVals(highestRecord)[1]+"INR",1/getYLabelFormatVals(highestRecord)[0]],
+          data:tempExpData,
+          scsrOffset: calcScsrOffset(tempExpData)
+        },
+        tableData : tempTableData
+      });
+      setExpDataLoading(false);
+      console.log("tableData");
+      console.log(tempTableData);
+
+    } catch (err) { console.log(err); }
 
     console.timeEnd("Axios Fetch");
   };
 
   useEffect(() => {
-    // getData(
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-01-01&end=2018-04-30",
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-05-01&end=2018-08-31",
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-09-01&end=2018-12-31"
-    // );
 
-    // getExpData(
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-01-01&end=2018-01-01",
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-05-01&end=2018-05-01",
-    //   "http://13.126.189.78/api/detail_exp_test?start=2018-09-01&end=2018-09-01"
-    // );
-
-    getData();
+    getData(initExpFilters, initDateFrom, initDateTo );
+    getExpDemandwiseData(initExpFilters, [initDateFrom, initDateTo]);
   }, []);
 
-  return (
-    <div>
-      <FHeader1 />
-      <MediaQuery query="(min-device-width: 768px)">
-        <FHeader2 />
-      </MediaQuery>
+  console.log("expData:");
+  console.log(expData);
 
-      <Content>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/aboutus" component={AboutUs} />
-          <Route exact path="/contactus" component={ContactUs} />
-          <Route exact path="/expenditure/summary" component={ExpSummary} />
-          <Route
-            exact
-            path="/expenditure/details"
-            render={() => (
-              <ExpDetails expData={expData} apiDataLoading={apiDataLoading} />
-            )}
-          />
-          <Route exact path="/expenditure/tracker" component={ExpTracker} />
-          <Route exact path="/budget_highlights" component={BudgetHighlights} />
-          <Route exact path="/idb_test" component={Idb_test} />
-        </Switch>
-      </Content>
-    </div>
+  return (
+
+
+        <div>
+          <FHeader1 />
+          <MediaQuery query="(min-device-width: 768px)">
+            <FHeader2 />
+          </MediaQuery>
+
+          <Content>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/aboutus" component={AboutUs} />
+              <Route exact path="/contactus" component={ContactUs} />
+              <Route exact path="/expenditure/summary" component={ExpSummary} />
+              <Route
+                exact
+                path="/expenditure/details"
+                render={() => (
+                  <ExpDetails
+                    expData={expData}
+                    expDataLoading={expDataLoading}
+                    getData={getData}
+                    initExpFilters={initExpFilters}
+                    initDateFrom={initDateFrom}
+                    initDateTo={initDateTo}
+                  />
+                )}
+              />
+              <Route exact path="/expenditure/tracker" component={ExpTracker} />
+              <Route exact path="/budget_highlights" component={BudgetHighlights} />
+              <Route exact path="/idb_test" component={Idb_test} />
+            </Switch>
+          </Content>
+        </div>
+
   );
 }
 
-export default App;
+App.propTypes = {
+  exp_demandwise: PropTypes.array.isRequired,
+  getExpDemandwiseData : PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps, {getExpDemandwiseData})(App);

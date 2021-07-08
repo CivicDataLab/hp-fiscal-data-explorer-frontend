@@ -1,69 +1,69 @@
-import React, { Component} from "react";
-import { VictoryLine, VictoryChart, VictoryAxis,  VictoryGroup, VictoryLabel } from 'victory';
+//HOW TO USE:
 
-const sampleDataTime = [{
-		x: 1,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 2,
-		sanction: 4.5,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 3,
-		sanction: 4.7,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 4,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 5,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 6,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 7,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 8,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
-	{
-		x: 9,
-		sanction: 4,
-		addition: 5,
-		saving: 6,
-		revised: 7,
-  },
+//1 import FTimeChart into which ever component you wanna use this in.
+//2 data should be of the format:
+// [
+//  const sampleData : [
+	// 	{
+	// 		name : "name1", //optional
+	// 		dataAry : [
+	// 			{ date : " " , gross : 0},
+	// 			{ date : "Aug" , gross : 3},
+	// 			{ date : "Sep" , gross : 2},
+	// 			{ date : "Oct" , gross : 1}
+	// 		]
+	// 	},
+	// 	{
+	// 		name : "name2", //optiona;
+	// 		dataAry : [
+	// 			{ date : " " ,  gross : 3},
+	// 			{ date : "Aug" , gross : 1},
+	// 			{ date : "Sep" , gross : 4},
+	// 			{ date : "Oct" , gross : 1}
+	// 		]
+	// 	}
+	// ]
+//  ...
+// ]
+//3 considering the above dataset as an example, following props are required (aling with values):
+// data = sampleData (ary)
+// dataToX = "gross" (string)
+// dataToY = "date" (string)
+//dataAryName = "dataAry" (string)
+
+
+import React, { Component, Fragment} from "react";
+import {
+	VictoryLine,
+	VictoryChart,
+	VictoryAxis,
+	VictoryArea,
+	VictoryGroup,
+	VictoryLabel,
+	VictoryTheme,
+	VictoryTooltip,
+	VictoryVoronoiContainer
+} from 'victory';
+
+import { getDynamicYLabelFormat } from '../../../utils/functions';
+
+import sassVars from '../../../scss/_vars.scss'
+
+const fColorScale = [
+	"hsl(360, 100%, 50%)",
+	"hsl(340, 100%, 50%)",
+	"hsl(320, 100%, 50%)",
+	"hsl(300, 100%, 50%)",
+	"hsl(280, 100%, 50%)",
+	"hsl(260, 100%, 50%)",
+	"hsl(240, 100%, 50%)",
+	"hsl(220, 100%, 50%)",
+	"hsl(200, 100%, 50%)",
+	"hsl(180, 100%, 50%)",
+	"hsl(160, 100%, 50%)",
+	"hsl(140, 100%, 50%)",
+	"hsl(120, 100%, 50%)",
+	"hsl(100, 100%, 50%)"
 ]
 
 const tickLabelStyle = {
@@ -75,14 +75,23 @@ const tickLabelStyle = {
 class FTimeSeries extends Component {
 
   static defaultProps = {
-      //yLabelFormat mnust be an array of 3. each value representing  'prefix', 'suffix' and multiplier
-      yLabelFormat: ["","",1]
+			chartWidth: 700,
+      chartHeight: 700
    };
 
   render() {
     return (
       <VictoryChart
-        animate={{ duration: 1000, easing: "expOut" }}
+				theme={VictoryTheme.material}
+        width= {this.props.chartWidth}
+        height= {this.props.chartHeight}
+				padding={{ top: 50, bottom: 450, left: 50, right: 50 }}
+				containerComponent={
+		      <VictoryVoronoiContainer
+		        labels={datum => datum}
+						labelComponent={this.props.tooltip}
+		      />
+		    }
       >
       <VictoryAxis
         tickLabelComponent={
@@ -92,7 +101,7 @@ class FTimeSeries extends Component {
           />
         }
         tickFormat={this.props.xLabelFormat}
-        tickValues={this.props.xLabelValues}
+        tickValues={this.props.xLabelVals}
       />
       <VictoryAxis
         dependentAxis
@@ -102,31 +111,42 @@ class FTimeSeries extends Component {
             style={tickLabelStyle}
           />
         }
-        tickFormat={(x) => (this.props.yLabelFormat[0]+x*this.props.yLabelFormat[2]+this.props.yLabelFormat[1])}
+        tickFormat={(y) => getDynamicYLabelFormat(y)}
       />
         <VictoryGroup
-
           style={{ data: { width: 5 } }}
+
         >
-
         {
-          this.props.dataPoints && //if multiple datapoints is specified via the datapoints prop,
-            this.props.dataPoints.map((dataToY, i) =>{
-              return(
-                <VictoryLine
-                  key={i}
-                  colorScale={"blue"}
-                  data={this.props.data}
-                  x={this.props.dataToX}
-                  y={dataToY}
-                />
-              )
+          this.props.data && //if multiple datapoints is specified via the datapoints prop,
+            this.props.data.map((d, i) =>{
+								return(
+	                <VictoryLine
+	                  key={i}
+	                  colorScale={fColorScale}
+	                  data={d[this.props.dataAryName]}
+	                  x={this.props.dataToX}
+	                  y={this.props.dataToY.split(',')[0]}
+	                />
+	              )
             })
-
         }
-
+				{
+					(this.props.data && this.props.dataToY.split(',').length > 1) &&
+						 this.props.data.map((d,i) => {
+							 return (
+								 <VictoryLine
+									 key={i}
+									 colorScale={fColorScale}
+									 data={d[this.props.dataAryName]}
+									 style={{ data: { strokeWidth: 3} }}
+									 x={this.props.dataToX}
+									 y={this.props.dataToY.split(',')[1].trim()}
+								 />
+							 )
+						 })
+				}
         </VictoryGroup>
-
       </VictoryChart>
 
     )

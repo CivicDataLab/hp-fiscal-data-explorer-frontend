@@ -4,15 +4,21 @@
 @import './scss/vars.scss';
 
 //components styles
-@import './components/atoms/FButton/style.scss';
+@import './components/atoms/FLoading/style.scss';
+@import './components/molecules/FMonthPicker/style.scss';
+@import './components/molecules/FDropdown/style.scss';
+@import './components/molecules/FDownloadActionTooltip/style.scss';
+@import './components/molecules/FLegend/style.scss';
 @import './components/organisms/FHeader1/style.scss';
-@import './components/organisms/FHeader2/style.scss';
+@import './components/organisms/FPageTitle/style.scss';
+@import './components/organisms/FFilterColumn2/style.scss';
 
 //datavizcomps styles
-
 @import './components/dataviz/FTable/style.scss';
 @import './components/dataviz/FSASRChart/style.scss';
 @import './components/dataviz/FBarChart/style.scss';
+@import './components/dataviz/FForce_Y/style.scss';
+@import './components/dataviz/FMap/style.scss';
 
 //content styles
 @import './content/Home/style.scss';
@@ -20,23 +26,20 @@
 @import './content/ContactUs/style.scss';
 @import './content/ExpSummary/style.scss';
 @import './content/ExpDetails/style.scss';
-@import './content/ExpTracker/style.scss';
+@import './content/ExpDistrictwise/style.scss';
+
+
 
 //carbon overrides
-.bx--content{
-  padding-top: 8rem;
+.f-content{
+  padding-top: 3rem;
   transform: none;
-
-  @media screen and (max-width: 767px){
-    padding-top: 5rem;
-  }
 }
 
 .text-col{
-  position: fixed;
+
   width: 30rem;
-  left: 2rem;
-  top: 8rem;
+
   background-color: $extra_light_grey;
   padding: 2rem;
 
@@ -52,32 +55,56 @@
   }
 }
 
+//custom
+
+.f-light-grey{
+  color: $grey;
+}
+
 .filter-col-wrapper{
   height: 100vh;
   position: fixed;
-  width: 16rem;
-  left: 2rem;
-  top: 0rem;
-  padding: 8rem 0 2rem 0;
+  width: 18rem;
+  left: -18rem;
+  top: 0;
+  padding: 7.8rem 0 0 0;
+  z-index: 10;
+  transition: left 0.3s ease-out;
 
-  .filter-col{
-    background-color: $extra_light_grey;
-    padding: 2rem;
-    height: 100%;
-    overflow: scroll;
+  @media screen and (min-width: 1024px){
+    left: 0;
+  }
+}
 
-    .filter-col--ops{
-      padding-bottom: 2rem;
+@media screen and (max-width: 1023px){
+  .filter-col-wrapper{
+    &.hide{
+      left: -18rem;
+    }
+
+    &.show{
+      left: 0;
     }
   }
 }
 
+
 .data-viz-col{
   width: 100%;
-  padding-left: 32rem;
+  padding-top: 2rem;
+  z-index: 10;
 
-  &.exp-details{
-    padding-left: 18rem;
+  &.exp-details, &.receipts, &.exp-districtwise, &.exp-schemes{
+    padding-left: 2rem;
+
+    @media screen and (min-width: 1024px){
+      padding-left: 20rem;
+    }
+  }
+
+  &.exp-summary{
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   @media screen and (max-width: 1280px){
@@ -85,9 +112,12 @@
   }
 
   @media screen and (max-width: 992px){
-    padding-top: 2rem;
     padding-left: 0;
   }
+}
+
+.viz-view-toggle{
+  padding-top: 2rem;
 }
 
 //content switcher component
@@ -105,4 +135,26 @@
 .content-switcher-wrapper{
   display: flex;
   justify-content: center;
+}
+
+//force style the text in the second column of each table. (For the budget code)
+.bx--data-table tr > td:nth-child(2){
+  font-size: 9px;
+  font-weight: 700;
+}
+//...but dont apply the above styling to the summary page data table
+.exp-summary .bx--data-table tr > td:nth-child(2){
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+//...and in the case of districtwise, apply this style to the 3rd child as well
+.exp-districtwise .bx--data-table tr > td:nth-child(3){
+  font-size: 9px;
+  font-weight: 700;
+}
+
+//force multiselect --> option text to wrap
+.bx--list-box__menu-item .bx--checkbox-label-text{
+  white-space: normal;
 }

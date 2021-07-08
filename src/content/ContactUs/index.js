@@ -7,17 +7,26 @@ class ContactUs extends React.Component {
     this.drawChart();
   }
 
-  drawChart(){
-    var n = 30,
-    	width = 800,
-    	padding = 5,
-    	nodes = [];
+  componentWillUnmount(){
+    console.log("remove svg");
+    d3.selectAll("svg").remove();
+  }
 
-    for (var y = 0; y < n; ++y) {
+
+
+  drawChart(){
+    var n = 10,
+    	width = 800,
+    	padding = 50,
+    	nodes = [
+
+      ];
+
+    for (var y = 0; y < n; y++) {
     	for (var x = 0; x < n; ++x) {
     		nodes.push({
     			x: x,
-    			y: y
+    			y: y,
     		})
     	}
     }
@@ -27,16 +36,18 @@ class ContactUs extends React.Component {
     var svg = d3.select("body")
     	.append("svg")
     	.attr("width", width)
-    	.attr("height", width);
+    	.attr("height", width)
+      .append("g");
+      // .attr("transform", "translate(" + width / 2 + "," + width / 2 + ")");
 
     var scale = d3.scaleLinear()
-    	.domain([0, 29])
+    	.domain([0, 9])
     	.range([padding, width - padding]);
 
     var simulation = d3.forceSimulation()
-    	.force("charge", d3.forceManyBody().strength(1))
-    	.force("xPos", d3.forceX(d => scale(d.x)).strength(0.1))
-    	.force("yPos", d3.forceY(d => scale(d.y)).strength(0.1))
+    	.force("charge", d3.forceManyBody().strength(-1))
+    	.force("xPos", d3.forceX(width/2).strength(1))
+    	.force("yPos", d3.forceY(d => scale(d.y)).strength(1))
     	.force("collide", d3.forceCollide(d => d.radius * 1.2).strength(1))
       ;
 
@@ -46,7 +57,7 @@ class ContactUs extends React.Component {
     	.append("circle")
     	.attr("fill", "darkslateblue")
     	.attr("r", d => {
-    		d.x == 14 && d.y == 14 ? d.radius = 25 : d.radius = 2;
+    		d.radius = 6  ;
     		return d.radius
     	})
     	.call(d3.drag()

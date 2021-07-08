@@ -1,6 +1,20 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types"
+import { Route, Switch, withRouter } from "react-router-dom";
 import axios from "axios";
+
+//redux
+import { connect } from "react-redux";
+
+//actions
+import { getExpDemandwiseData } from "./actions/exp_demandwise.js"
+import { getExpDemandwiseFiltersData } from './actions/exp_demandwise_filters';
+
+import { getExpDistrictwiseData } from "./actions/exp_districtwise.js"
+import { getExpDistrictwiseFiltersData } from './actions/exp_districtwise_filters';
+
+import { getReceiptsData } from "./actions/receipts.js"
+import { getReceiptsFiltersData } from './actions/receipts_filters';
 
 import MediaQuery from "react-responsive";
 
@@ -14,7 +28,6 @@ import { Content } from "carbon-components-react/lib/components/UIShell";
 //from our components
 
 import FHeader1 from "./components/organisms/FHeader1";
-import FHeader2 from "./components/organisms/FHeader2";
 
 //from our content
 import Home from "./content/Home";
@@ -22,84 +35,116 @@ import Home from "./content/Home";
 import AboutUs from "./content/AboutUs";
 import ContactUs from "./content/ContactUs";
 
-//test comp
-import Idb_test from "./content/Idb_test";
-
 //dictionary to convert exp_details data to objects
 import exp_details_keys from "./dictionary/exp_details_keys.json";
 
 import ExpSummary from "./content/ExpSummary";
 import ExpDetails from "./content/ExpDetails";
-import ExpTracker from "./content/ExpTracker";
+import ExpDistrictwise from "./content/ExpDistrictwise";
+import ExpSchemes from "./content/ExpSchemes";
+import Receipts from "./content/Receipts";
 
 import BudgetHighlights from "./content/BudgetHighlights";
 
 import "./App.scss";
 
-//initialize all filters
-var initExpFilters = { "filters":{} };
+const App = ({
+		exp_demandwise : {
+			activeFilters : initExpFilters,
+			dateRange : initExpDateRange
+		},
+		receipts : {
+			activeFilters : initReceiptsFilters,
+			dateRange : initReceiptsDateRange
+		},
+		exp_districtwise : {
+			initData,
+			activeFilters,
+			dateRange
+		},
+		exp_districtwise_filters : {
+			allFiltersData,
+			rawFilterDataAllHeads
+		},
+		getExpDemandwiseData,
+	  getExpDemandwiseFiltersData,
+		getExpDistrictwiseData,
+	  getExpDistrictwiseFiltersData,
+		getReceiptsData,
+	  getReceiptsFiltersData,
+		location : { pathname }
+	}
+) => {
 
 
-function App() {
-  //set app level state containing raw data.
-  const [expData, setExpData] = useState();
-  const [expDataLoading, setExpDataLoading] = useState(true);
+const apiCallQueue = [
+	{ apiFunc: () => getExpDemandwiseFiltersData() },
+	{ apiFunc: () => getExpDemandwiseData(initExpFilters, [initExpDateRange[0], initExpDateRange[1]]) },
+	// { apiFunc: () => getExpDistrictwiseData(initData, activeFilters, dateRange) },
+	// { apiFunc: () => getExpDistrictwiseFiltersData(allFiltersData, rawFilterDataAllHeads) }
+]
 
-  const getData = async (payload) => {
+const fetchApisInQueue = async (idx) => {
+		await apiCallQueue[idx].apiFunc();
+		if(idx+1 !== apiCallQueue.length){
+			fetchApisInQueue(idx+1);
+		}
+}
 
-    console.time("Axios Fetch");
-    console.log("Axios Fetch Started");
 
-    try {
-      const res = await axios.post(
-        "http://13.126.189.78/api/detail_exp_week?start=2018-04-01&end=2019-03-31", payload
-      );
-      setExpDataLoading(false);
-      setExpData(res.data.records);
+ useEffect(() => {
+	 if(pathname.includes("receipts") === true){
+		 apiCallQueue.unshift(
+			 { apiFunc: () => getReceiptsData(initReceiptsFilters, initReceiptsDateRange) },
+		 	 { apiFunc: () => getReceiptsFiltersData() }
+		 )
+	 }
+	 fetchApisInQueue(0);
 
-    } catch (err) { console.log(err); }
+ }, []);
 
-    console.timeEnd("Axios Fetch");
-  };
-
-  useEffect(() => {
-    getData(initExpFilters);
-  }, []);
-
-  console.log("expData:");
-  console.log(expData);
-
-  return (
-    <div>
-      <FHeader1 />
-      <MediaQuery query="(min-device-width: 768px)">
-        <FHeader2 />
-      </MediaQuery>
-
-      <Content>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/aboutus" component={AboutUs} />
-          <Route exact path="/contactus" component={ContactUs} />
-          <Route exact path="/expenditure/summary" component={ExpSummary} />
-          <Route
-            exact
-            path="/expenditure/details"
-            render={() => (
-              <ExpDetails
-                expData={expData}
-                expDataLoading={expDataLoading}
-                getData={getData}
-              />
-            )}
-          />
-          <Route exact path="/expenditure/tracker" component={ExpTracker} />
-          <Route exact path="/budget_highlights" component={BudgetHighlights} />
-          <Route exact path="/idb_test" component={Idb_test} />
-        </Switch>
-      </Content>
-    </div>
+ return (
+      <div>
+        <FHeader1 />
+          <Switch>
+						<Route exact path="/" component={Home} />
+            <Route exact path="/aboutus" component={AboutUs} />
+            <Route exact path="/contactus" component={ContactUs} />
+            <Route exact path="/expenditure/summary" component={ExpSummary} />
+            <Route exact path="/expenditure/details" component={ExpDetails} />
+            <Route exact path="/expenditure/tracker" component={ExpDistrictwise} />
+						<Route exact path="/schemes" component={ExpSchemes} />
+            <Route exact path="/receipts" component={Receipts} />
+          </Switch>
+      </div>
   );
 }
 
-export default App;
+App.propTypes = {
+  exp_demandwise : PropTypes.object.isRequired,
+	receipts : PropTypes.object.isRequired,
+  getExpDemandwiseData : PropTypes.func.isRequired,
+  getExpDemandwiseFiltersData : PropTypes.func.isRequired,
+	getExpDistrictwiseData : PropTypes.func.isRequired,
+  getExpDistrictwiseFiltersData : PropTypes.func.isRequired,
+	getReceiptsData : PropTypes.func.isRequired,
+  getReceiptsFiltersData : PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+	exp_districtwise_filters : state.exp_districtwise_filters,
+	exp_districtwise : state.exp_districtwise,
+	exp_demandwise : state.exp_demandwise,
+	receipts : state.receipts
+})
+
+export default withRouter(connect(
+	mapStateToProps,
+	{
+		getExpDistrictwiseData,
+		getExpDistrictwiseFiltersData,
+		getExpDemandwiseData,
+		getExpDemandwiseFiltersData,
+		getReceiptsData,
+		getReceiptsFiltersData
+	})(App));
